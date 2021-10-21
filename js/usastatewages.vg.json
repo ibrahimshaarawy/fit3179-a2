@@ -1,0 +1,49 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 450,
+  "height": 250,
+  "title": "Annual Wages Per State",
+  "projection": {"type": "albersUsa"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/ibrahimshaarawy/fit3179-a2/main/us-states.json",
+    "format": {"type": "topojson", "feature": "us-states"}
+  },
+  "params": [{"name": "highlight", "select": "point"}],
+  "transform": [
+    {
+      "lookup": "properties.name",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/ibrahimshaarawy/fit3179-a2/main/SampleSuperstore.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "State",
+        "fields": ["Total Annual Wages"]
+      }
+    }
+  ],
+  "mark": {"type": "geoshape"},
+  "encoding": {
+    "color": {
+      "field": "Total Annual Wages",
+      "type": "quantitative",
+      "scale": {
+        "type": "threshold",
+        "domain": [30000000000, 78000000000, 200000000000, 1100000000000]
+      },
+      "legend": {"format": ","}
+    },
+    "stroke": {
+      "condition": {"param": "highlight", "empty": false, "value": "black"},
+      "value": null
+    },
+    "opacity": {"condition": {"param": "highlight", "value": 1}, "value": 0.5},
+    "order": {"condition": {"param": "highlight", "value": 1}, "value": 0},
+    "tooltip": [
+      {"field": "properties.name", "type": "nominal", "title": "State"},
+      {"field": "Total Annual Wages", "type": "quantitative", "format": ","}
+    ]
+  }
+}

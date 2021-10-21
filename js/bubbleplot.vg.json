@@ -1,0 +1,57 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "white",
+    "padding": 5,
+    "width":"container",
+    "height": 300,
+    "title": "Annual Wages Per Employee vs Annual Average Employement",
+        "data": {
+          "url": "https://raw.githubusercontent.com/ibrahimshaarawy/fit3179-a2/main/SampleSuperstore.csv",
+  "format": {"type": "csv"}
+  },
+      "params": [{
+        "name": "Annual_abv",
+        "value": 0,
+        "bind": {
+          "input": "range",
+          "min": 25000,
+          "max": 105000,
+          "step": 1000,
+          "name": "Minimum Average Wage: "
+        }
+      }],
+      "transform": [{"filter": "datum['Annual Wages Per Employee'] > Annual_abv"}],
+      "encoding": {
+      "x": {
+        "field": "Annual Wages Per Employee",
+        "type": "quantitative",
+        "axis": {"tickCount": 10}
+    },
+    "y": {
+        "field": "Annual Average Employement",
+        "type": "quantitative",
+        "axis": {"tickCount": 10}
+    } },
+        "layer": [  {"mark": "circle","encoding": {
+        "x": {"field": "Annual Wages Per Employee", "type": "quantitative", "title": "Annual Wages Per Employee"},
+        "y": {"field": "Annual Average Employement", "type": "quantitative", "title": "Annual Average Employement",  "axis": {"tickCount": 10}},
+        "color": {"field": "State", "type": "nominal", "title": "State", "legend": null },
+        "size": {"field": "Total Annual Wages", "type": "quantitative","scale": {"type": "threshold", "domain": [10000000000, 100000000000, 400000000000, 600000000000, 1000000000000], "range": [10, 50, 150, 200, 400, 700]}, "legend": {"format": ".1s"} },
+    "tooltip": [
+    {"field": "State", "type": "nominal"},
+    {"field": "Annual Wages Per Employee", "type": "quantitative", "format": ","}, {"field": "Total Annual Wages", "type": "quantitative", "format": ","}
+    ]
+    }},
+    {"mark":{"type": "text", "align":"right", "baseline": "middle", "dx": -12, "fontSize": 11.5, "fontStyle": "italic"}, "encoding": {"text": {"field": "State", "type": "nominal"}, "color": {"value": "black"}, "opacity": {
+              "condition": {
+                "test": "datum['State'] == 'California' || datum['State'] == 'Florida' || datum['State'] == 'New York' || datum['State'] == 'Texas' || datum['State'] == 'Massachusetts' || datum['State'] == 'District of Columbia' ", "value": 1 },
+                "value": 0 
+                },
+                "tooltip": [
+    {"field": "State", "type": "nominal"},
+    {"field": "Annual Wages Per Employee", "type": "quantitative", "format": ","},
+    {"field": "Total Annual Wages", "type": "quantitative", "format": ","}]
+                }
+    }
+        ]
+  }

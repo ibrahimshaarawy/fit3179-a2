@@ -1,0 +1,47 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "white",
+    "padding": 5,
+    "width": 250,
+    "height": 100,
+    "title": "New York vs USA Average",
+    "config": {"background": "darkturquoise"},
+    "projection": {"type": "albersUsa"},
+        "data": {
+          "url": "https://raw.githubusercontent.com/ibrahimshaarawy/fit3179-a2/main/SampleSuperstore.csv",
+  "format": {"type": "csv"}
+  },
+    "transform": [{    
+        "joinaggregate": [{
+          "op": "mean",
+          "field": "Total Annual Wages",
+          "as": "AverageAnnualWages"
+        }]
+      },{
+      "filter": "datum.State == 'New York'"
+    }],
+    "layer": [{"mark": "bar"}, {      "mark": {
+          "type": "text",
+          "align": "right",
+          "yOffset": -15,
+          "font": "Lato",
+          "fontSize": 10
+        }, "encoding": {"text": {"field": "Total Annual Wages", "type": "ordinal", "format": ".0f"}}}, {
+        "mark": {"type": "rule", "color": "red", "size":1},
+        "encoding": {
+          "x": {
+            "field": "AverageAnnualWages",
+            "type": "quantitative"
+          }
+        }}],
+  
+  "encoding": {
+      "x": {
+        "field": "Total Annual Wages",
+        "title": "population",
+        "type": "quantitative",
+        "axis": null
+      }
+  }
+  
+  }
